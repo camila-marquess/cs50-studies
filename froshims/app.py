@@ -1,6 +1,12 @@
 from flask import Flask, render_template, redirect, request
+from flask_mail import Mail, Message
+import sqlite3
 
 app = Flask(__name__)
+
+
+# conn = sqlite3.connect('froshims.db')
+# cur = conn.cursor()
 
 REGISTRANTS = {}
 
@@ -25,10 +31,11 @@ def register():
     if sport not in SPORTS:
         return render_template("error.html", message="Invalid sport")
     
-    REGISTRANTS[name] = sport
+    #cur.execute("INSERT INTO registrants (name, sport) VALUES (?, ?)", name, sport)
     
     return redirect("/registrants")
 
 @app.route("/registrants")
 def registrants():
+    #registrants = cur.execute("SELECT * FROM registrants")
     return render_template("registrants.html", registrants=REGISTRANTS)
